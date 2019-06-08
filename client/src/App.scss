@@ -1,0 +1,88 @@
+$main-font-size:0.8rem;
+
+
+body{
+  font-size:$main-font-size;
+}
+
+.video-background{
+  position:fixed;
+  bottom:-10;
+  right:0;
+  min-height:100%;
+  max-height: 100%;
+}
+
+.login-card{
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  font-family:"Open Sans", sans serif !important;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.login-card-inner{
+    background-color: rgba(255,255,255,0.3);
+    width: 300px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding:1rem;
+}
+
+.login-card-inner.show{
+  opacity: 1;
+  visibility: visible;
+}
+
+.login-card-title{
+  font-size:$main-font-size *2.5;
+  color:#07301C;
+  margin-bottom:0;
+}
+
+.login-card-input{
+  display:block;
+  padding:0.5em;
+  width: 250px;
+  margin-bottom:0.4rem;
+  border-bottom:1px solid #66A756;
+  border-left:none;
+  border-right: none;
+  border-top: none;
+  color:#878787;
+}
+
+.login-card-input:focus,.login-card-btn:focus{
+  outline-offset: 0px !important;
+  outline: none !important;
+  color:inherit;
+}
+
+
+.login-card-btn{
+  width: 250px;
+  padding: 10px;
+  background-color: #66A756;
+  color: White;
+  border: none;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-bottom:0.2rem;
+}
+
+.login-card-logo{
+  width:50%;
+}
+

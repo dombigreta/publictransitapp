@@ -1,0 +1,20 @@
+{
+  "name": "publictransportionapp",
+  "version": "1.0.0",
+  "description": "Simple app for finding the suitable transportion for your needs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dombigreta",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "mongoose": "^5.5.9",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.0"
+  }
+}
