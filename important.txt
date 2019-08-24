@@ -1,0 +1,7 @@
+testuser01:
+username:testuser01
+password:kiskutya
+
+testuser00:
+username:testuser00
+password:kiskutya

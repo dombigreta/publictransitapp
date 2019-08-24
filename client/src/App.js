@@ -2,11 +2,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.scss';
 import LoginCardComponent from './components/logincardcomponent';
-import  WithAuth from './components/withauth';
-import AuthHelperMethods from './components/customobjects/authhelpermethods';
 
 function App() {
-
   return (
     <React.Fragment>
     <LoginCardComponent/>
@@ -19,4 +16,4 @@ function App() {
   );
 }
 
-export default WithAuth(App);
+export default App;

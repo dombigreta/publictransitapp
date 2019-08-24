@@ -4,17 +4,26 @@
   "description": "Simple app for finding the suitable transportion for your needs",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backend": "cd server && nodemon server.js",
+    "dev":"concurrently  \"npm run backend\" \"cd client && npm start\""
   },
   "author": "dombigreta",
+  "proxy": 9999,
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.0",
+    "crypto": "^1.0.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.0",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.3.0",
     "mongoose": "^5.5.9",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   }
 }
