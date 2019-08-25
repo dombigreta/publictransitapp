@@ -4,4 +4,4 @@ password:kiskutya
 
 testuser00:
 username:testuser00
-password:kiskutya
+password:kismacska

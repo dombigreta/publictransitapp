@@ -20,9 +20,11 @@ let UserSchema = new mongoose.Schema({
 
 // -- setting password for the user before saving
 UserSchema.pre('save', function(next){
+  if(this.isNew){
     this.salt = crypto.randomBytes(16).toString('hex');
     this.password = crypto.pbkdf2Sync(this.password,this.salt,iterations,key,digest).toString('hex');
     next();
+  }
 });
 
 // -- custom methods

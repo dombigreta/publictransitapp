@@ -16,7 +16,20 @@ class LoginCardComponent extends React.Component{
     }
   }
 
-  handleLogin = () => {
+  validateForm = () => {
+    if(this.state.username.length === 0 || this.state.username === ''){
+      return false;
+    }
+
+    if(this.state.password.length === 0 || this.state.password === ''){
+      return false;
+    }
+
+    return true;
+  }
+
+  handleSubmit = () => {
+     if(!this.validateForm()) return;
       let loginInfo = {
         username:this.state.username,
         password:this.state.password
@@ -48,15 +61,13 @@ class LoginCardComponent extends React.Component{
   } 
 
   handleInputChange = (e) => {
-    let label = e.target.name;
-    let value = e.target.value;
-    this.setState({[label]:value});
+    const {name, value} = e.target;
+    this.setState({[name]:value});
   }
 
     render(){
       return(
         <div className="login-card">
-
             <div className="login-card-inner">
                 <img src={logo} className="login-card-logo"/>
                 <div className="login-card-title">
@@ -79,10 +90,8 @@ class LoginCardComponent extends React.Component{
                     </div>
                 </div>
                 <div>
-                <button onClick={this.handleLogin} className="login-card-btn">click to login</button>
-                </div>
-                <div>
-                Don't have an account? <b>sign up</b>
+                <button onClick={this.handleSubmit}  className="login-card-btn">login</button>
+                <div className="text-center">Don't have an account? <span className="strong" onClick={this.props.changeView}>Sign up!</span></div>
                 </div>
                 </div>
         </div>
