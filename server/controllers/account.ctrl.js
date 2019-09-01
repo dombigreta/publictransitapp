@@ -28,7 +28,7 @@ router.post('/loginWithPassword', function(req, res, next) {
             return res.json({user: user.toAuthJson()})
         }
         else{
-            return res.status(422).json(info);
+            res.status(422).send(422,info);
         }
 
     })(req,res,next);

@@ -51,21 +51,33 @@ body{
 }
 
 .login-card-input{
-  display:block;
-  padding:0.5em;
   width: 250px;
-  margin-bottom:0.4rem;
-  border-bottom:1px solid #66A756;
-  border-left:none;
-  border-right: none;
-  border-top: none;
-  color:#878787;
+  height:auto;
+  font-size: $main-font-size;
 }
 
+.login-card-input-container{
+  margin-bottom:0.4rem;
+}
+.input-container{
+  position:relative;
+}
+.login-card-input-show-pswd-icon{
+  position:absolute;
+  font-size: 1rem;
+  top:50%;
+  transform:translateY(-50%);
+  left:220px;
+  right:0px;
+}
+.login-card-input-show-pswd-icon:hover{
+  cursor: pointer;
+}
 .login-card-input:focus,.login-card-btn:focus{
   outline-offset: 0px !important;
   outline: none !important;
   color:inherit;
+  font-size:$main-font-size;
 }
 
 
@@ -86,3 +98,47 @@ body{
   width:50%;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0.0;
+
+  }
+  to {
+    opacity: 1.0;
+
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1.0;
+
+  }
+  to {
+    opacity: 0.0;
+
+  }
+
+}
+
+
+.toggle-enter{
+  animation-name: fade-in;
+  animation-duration: 400ms;
+}
+
+.toggle-leave{
+  animation-name: fade-out;
+  animation-duration: 400ms;
+
+}
+
+
+.from-error-container{
+  background-color: #b71c1c;
+  padding:0.7rem;
+  color:#FFFFFF;
+  margin-bottom:0.5rem;
+  width: 300px;
+  text-align: center;
+}

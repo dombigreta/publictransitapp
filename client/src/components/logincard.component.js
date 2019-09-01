@@ -1,13 +1,28 @@
 import React from 'react';
 import logo from '../resources/miskolc-logo.svg';
+import axios from 'axios';
+import ReactCssTransitionGroup from 'react-addons-css-transition-group';
+
 
 
 class LoginCardComponent extends React.Component{
 
+  constructor(props){
+    super(props);
+  }
+
   state = {
     username:'',
-    password:''
+    password:'',
+    passwordFieldType:'password',
+    errors:{
+      username:'',
+      password:''
+    },
+    formError:''
   }
+
+
 
   componentDidMount(){
     let accessToken = localStorage.getItem('accessToken');
@@ -17,15 +32,23 @@ class LoginCardComponent extends React.Component{
   }
 
   validateForm = () => {
-    if(this.state.username.length === 0 || this.state.username === ''){
-      return false;
-    }
+    let errors = {
+      username:'',
+      password:''
+    };
 
-    if(this.state.password.length === 0 || this.state.password === ''){
-      return false;
-    }
+    let isValid = true;
 
-    return true;
+    for(let key of Object.keys(errors)){
+      if(this.state.hasOwnProperty(key)){
+        if(this.state[key].length == 0 || this.state[key].trim() == ''){
+          errors[key] = `${key} must be filled!`;
+          isValid = false;
+        }
+      }
+    }
+    this.setState({errors:errors});
+    return isValid;
   }
 
   handleSubmit = () => {
@@ -35,58 +58,81 @@ class LoginCardComponent extends React.Component{
         password:this.state.password
       }
 
-      fetch('/account/loginWithPassword',
-      {
-        method:'POST',
-        headers:{'Content-Type': 'application/json'},
-        body:JSON.stringify(loginInfo)
-      }).then((response) => {
-        if(response.status >= 200 && response.status < 300){
-          return response.json();
-        }
-        else{
-          let error = response.statusText;
-          throw error;
-        }
+      axios.post('/account/loginWithPassword', loginInfo).then((response) => {
+        const { user } = response.data;
+        localStorage.setItem('accessToken',user.token);
       })
-      .then((data) => {
-        localStorage.setItem('accessToken', data.user.token);
+      .catch((err) => {
+        const { error } = err.response.data;
+        this.setState({formError:error});
       });
   }
 
   handleKeyPress = (e) => {
     if(e.key === 'Enter' || e.key === 13){
-      this.handleLogin();
+      this.handleSubmit();
     }
   } 
 
   handleInputChange = (e) => {
     const {name, value} = e.target;
-    this.setState({[name]:value});
+    const {errors} = this.state;
+    errors[name] = '';
+    this.setState({[name]:value, errors:errors, formError:''});
+  }
+
+  toggleShowPassword = () => {
+   let type = this.state.passwordFieldType;
+   switch(type){
+     case 'password':{
+       this.setState({passwordFieldType:'text'});
+     }
+     break;
+     case 'text':{
+       this.setState({passwordFieldType:'password'});
+     }
+     break;
+   }
   }
 
     render(){
       return(
         <div className="login-card">
+                <ReactCssTransitionGroup
+                    transitionName="toggle"
+                    transitionEnterTimeout={400}
+                    transitionLeaveTimeout={400}>
+                      {this.state.formError.length == 0 ? null : <div className="from-error-container">{this.state.formError}</div> }
+                </ReactCssTransitionGroup>
             <div className="login-card-inner">
                 <img src={logo} className="login-card-logo"/>
                 <div className="login-card-title">
                 </div>
                 <div>
-                    <div>
+                    <div className="login-card-input-container">
                         <input  name="username" 
-                                className="login-card-input" 
+                                className="login-card-input form-control" 
                                 placeholder="username"
+                                autoComplete="new-password"
+                                type="text"
                                 onChange={this.handleInputChange}
                                 onKeyPress={this.handleKeyPress}/>
+                      <span>{this.state.errors['username']}</span>
                     </div>
-                    <div>
-                    <input name="password" 
-                            className="login-card-input"
-                            placeholder="password"
-                            onChange={this.handleInputChange}
-                            onKeyPress={this.handleKeyPress}
-                            type="password"/>
+                    <div className="login-card-input-container">
+                      <div className="input-container">
+                      <input name="password" 
+                              className="login-card-input form-control"
+                              placeholder="password"
+                              onChange={this.handleInputChange}
+                              onKeyPress={this.handleKeyPress}
+                              type={this.state.passwordFieldType}/>
+
+                        <span onClick={this.toggleShowPassword} 
+                              className={`login-card-input-show-pswd-icon fa ${this.state.passwordFieldType == 'password' ? 'fa-eye': 'fa-eye-slash'}`}>
+                        </span>
+                      </div>
+                      <span>{this.state.errors['password']}</span>
                     </div>
                 </div>
                 <div>

@@ -18,7 +18,7 @@ class RegistrateComponent extends React.Component{
     }
     
     emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
-
+    
     handleInputChange = (e) => {
         const {name, value} = e.target;
         const {errors} = this.state;
@@ -75,6 +75,53 @@ class RegistrateComponent extends React.Component{
         .then((data) => console.log(data));
     }
 
+    initValidation = () => {
+        this.validationSettings = {
+            username:[this.requiredValidation, this.minLengthValidation.bind(this)],
+            password:[this.requiredValidation, this.minLengthValidation.bind(this)],
+            passwordConfirm:[this.requiredValidation, this.minLengthValidation.bind(this)],
+            email:[this.requiredValidation, this.emailValidation]
+        };
+    }
+
+    validateField = (value, key) => {
+        if(this.validationSettings[key] === undefined && this.validationSettings[key].length > 0){
+            let isInvalid = false;
+            for(let i = 0; i< this.validationSettings[key].length; i++){
+                let validator = this.validationSettings[key][i];
+                isInvalid = isInvalid || validator.call(this,value);
+            }
+            const {errors} = this.state;
+            errors[key] = isInvalid;
+            this.setState({errors:errors})
+        }
+    }
+
+    validateAllFields = () => {
+        const {errors} = this.state;
+        let isAllValid = true;
+    }
+
+    requiredValidation = (value) => {
+        if(!!value){
+            return false;
+        }
+        return 'The field is required!';
+    }
+
+    minLengthValidation = (value, minLength) => {
+        if(!value || value.length < minLength){
+            return `It should be at least ${minLength} characters long!`;
+        }
+    }
+
+    emailValidation(value){
+        if(this.emailRegex.test(value)){
+            return false;
+        }
+        return 'In correct password format';
+    }
+
     render(){
         return(
             <div className="login-card">
@@ -83,32 +130,40 @@ class RegistrateComponent extends React.Component{
                 <div className="login-card-title">
                 </div>
                 <div>
-                    <div>
+                    <div className="login-card-input-container">
                         <input  name="username" 
-                                className="login-card-input" 
+                                className="login-card-input form-control"
+                                type="text"
+                                autoComplete="off" 
                                 placeholder="username"
                                 onChange={this.handleInputChange}/>
                         <div>{this.state.errors['username']}</div>
                     </div>
-                    <div>
+                    <div className="login-card-input-container">
                     <input name="password" 
-                            className="login-card-input"
+                            className="login-card-input form-control"
+                            type="text"
+                            autoComplete="off" 
                             placeholder="password"
                             onChange={this.handleInputChange}
                             type="password"/>
                         <div>{this.state.errors['password']}</div>
                     </div>
-                    <div>
+                    <div className="login-card-input-container">
                         <input  name="passwordConfirm" 
-                                className="login-card-input" 
+                                className="login-card-input form-control" 
+                                type="text"
+                                autoComplete="off" 
                                 placeholder="confirm your password"
                                 onChange={this.handleInputChange}
                                 type="password"/>
                         <div>{this.state.errors['passwordConfirm']}</div>
                     </div>
-                    <div>
+                    <div className="login-card-input-container">
                         <input  name="email" 
-                                className="login-card-input" 
+                                className="login-card-input form-control"
+                                type="email"
+                                autoComplete="off" 
                                 placeholder="email"
                                 onChange={this.handleInputChange}/>
                         <div>{this.state.errors['email']}</div>
